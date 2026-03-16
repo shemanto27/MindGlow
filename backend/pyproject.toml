@@ -1,0 +1,30 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "black>=24.4.2",
+    "boto3>=1.42.68",
+    "django>=6.0.3",
+    "django-cors-headers>=4.9.0",
+    "django-extensions>=4.1",
+    "django-storages>=1.14.6",
+    "djangorestframework>=3.16.1",
+    "djangorestframework-simplejwt>=5.5.1",
+    "drf-yasg>=1.21.15",
+    "gunicorn>=25.1.0",
+    "isort>=5.13.2",
+    "langdetect>=1.0.9",
+    "numpy>=2.4.3",
+    "openai>=2.28.0",
+    "pre-commit>=3.6.0",
+    "psycopg2-binary>=2.9.11",
+    "pydantic-settings>=2.13.1",
+    "python-decouple>=3.8",
+    "python-dotenv>=1.2.2",
+    "requests>=2.32.5",
+    "sentry-sdk[django]>=2.54.0",
+    "whitenoise>=6.12.0",
+]
