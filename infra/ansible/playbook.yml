@@ -3,7 +3,7 @@
 
   vars:
     project_path: /home/ubuntu/MIndGlow
-    website_domain: example.com           
+    website_domain: api.mindglow.tech           
     certbot_email: your-email@example.com 
     env_file_src: ../../backend/.env
     docker_compose_src: ../../docker-compose.prod.yml
