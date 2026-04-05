@@ -39,6 +39,12 @@
         state: present
         update_cache: yes
 
+    - name: Ensure ubuntu user is in the docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
     - name: Create project folder
       file:
         path: "{{ project_path }}"
