@@ -1,10 +1,10 @@
 - hosts: webservers
-  become: yes
+  become: true
 
   vars:
-    project_path: /home/ubuntu/MIndGlow
+    project_path: /home/ubuntu/MindGlow
     website_domain: api.mindglow.tech           
-    certbot_email: your-email@example.com 
+    certbot_email:  mindglowrm@gmail.com 
     env_file_src: ../../backend/.env
     docker_compose_src: ../../docker-compose.prod.yml
     nginx_conf_src: ../../nginx/backend.conf
@@ -15,45 +15,59 @@
         update_cache: yes
         upgrade: dist
 
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
     - name: Install dependencies
       apt:
         name:
-          - docker.io
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
           - docker-compose-plugin
           - nginx
           - certbot
           - python3-certbot-nginx
         state: present
+        update_cache: yes
 
     - name: Create project folder
       file:
-        path: ""
+        path: "{{ project_path }}"
         state: directory
         mode: "0755"
 
     - name: Create backend folder
       file:
-        path: "/backend"
+        path: "{{ project_path }}/backend"
         state: directory
         mode: "0755"
 
     - name: Copy .env file
       copy:
-        src: ""
-        dest: "/backend/.env"
+        src: "{{ env_file_src }}"
+        dest: "{{ project_path }}/backend/.env"
         mode: "0600"
 
     - name: Copy docker-compose.prod.yml
       copy:
-        src: ""
-        dest: "/docker-compose.prod.yml"
+        src: "{{ docker_compose_src }}"
+        dest: "{{ project_path }}/docker-compose.prod.yml"
         mode: "0644"
       notify:
         - restart docker-compose
 
     - name: Copy Nginx config to EC2
       copy:
-        src: ""
+        src: "{{ nginx_conf_src }}"
         dest: /etc/nginx/sites-available/backend
         mode: "0644"
       notify:
@@ -77,12 +91,12 @@
     - name: Obtain SSL certificate via Certbot
       command: >
         certbot --nginx
-        -d 
+        -d {{ website_domain }}
         --non-interactive
         --agree-tos
-        -m 
+        -m {{ certbot_email }}
       args:
-        creates: /etc/letsencrypt/live//fullchain.pem
+        creates: /etc/letsencrypt/live/{{ website_domain }}/fullchain.pem
 
   handlers:
     - name: reload nginx
@@ -91,6 +105,8 @@
         state: reloaded
 
     - name: restart docker-compose
-      command: docker compose -f docker-compose.prod.yml up -d
+      shell: |
+        docker compose -f docker-compose.prod.yml pull
+        docker compose -f docker-compose.prod.yml up -d --force-recreate
       args:
-        chdir: ""
+        chdir: "{{ project_path }}"

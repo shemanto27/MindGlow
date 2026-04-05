@@ -26,7 +26,7 @@ variable "db_username" {
 variable "db_password" {
   description = "RDS Postgres password"
   sensitive   = true
-  default     = "chef_starz_db_password"
+  default     = "mindglow_db_password"
 }
 
 variable "aws_profile" {

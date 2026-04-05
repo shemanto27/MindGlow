@@ -1,12 +1,10 @@
-version: "3.9"
-
 services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: MIndGlow-backend
-    container_name: MIndGlow-backend
+    image: mindglow-backend:dev
+    container_name: mindglow-backend-dev
     ports:
       - "8000:8000"
     env_file:
