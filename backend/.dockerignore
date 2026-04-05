@@ -33,7 +33,7 @@ infra/
 *.tfvars
 
 # Shell Scripts & Diagrams
-*.sh
+# *.sh  <-- Removed so entrypoint.sh is available for build
 erd.jpg
 erd.png
 erd.pdf
