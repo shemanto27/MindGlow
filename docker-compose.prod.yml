@@ -1,7 +1,7 @@
 services:
   backend:
     # This will now use the DOCKER_IMAGE defined in your .env
-    image: ${DOCKER_IMAGE:-yourusername/mindglow-backend:latest}
+    image: ${DOCKER_IMAGE:-shemanto27/mindglow-backend:latest}
     container_name: mindglow-backend
     ports:
       - "8000:8000"
