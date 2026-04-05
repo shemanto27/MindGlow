@@ -48,6 +48,6 @@ jobs:
             set -e
             cd /home/ubuntu/MindGlow
             # Pull the latest image we just pushed
-            docker compose -f docker-compose.prod.yml pull
+            sudo docker compose -f docker-compose.prod.yml pull
             # Restart the service
-            docker compose -f docker-compose.prod.yml up -d --force-recreate --remove-orphans
+            sudo docker compose -f docker-compose.prod.yml up -d --force-recreate --remove-orphans
