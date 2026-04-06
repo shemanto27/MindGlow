@@ -22,8 +22,10 @@ AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', cast=str, default='t
 AWS_S3_CUSTOM_DOMAIN = config('AWS_S3_CUSTOM_DOMAIN', cast=str, default=None)
 AWS_S3_FILE_OVERWRITE = config('AWS_S3_FILE_OVERWRITE', cast=bool, default=False)
 AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', cast=str, default='us-east-1')
-AWS_DEFAULT_ACL = config('AWS_DEFAULT_ACL', cast=str, default=None)
-AWS_S3_VERITY = config('AWS_S3_VERITY', cast=bool, default=True)
+
+# Modern S3 Buckets do not allow ACLs. Setting this to None is REQUIRED.
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = config('AWS_S3_VERIFY', cast=bool, default=True)
 
 
 # -------------------------------
