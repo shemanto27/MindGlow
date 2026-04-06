@@ -19,9 +19,9 @@ DEBUG = config('DEBUG', cast=bool, default=True)
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', cast=str, default='test-access-key')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', cast=str, default='test-secret-key')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', cast=str, default='test-bucket')
+AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', cast=str, default='ca-central-1')
 AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
 AWS_S3_FILE_OVERWRITE = config('AWS_S3_FILE_OVERWRITE', cast=bool, default=False)
-AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', cast=str, default='ca-central-1')
 
 # Disable query signatures for public assets
 AWS_QUERYSTRING_AUTH = False
