@@ -1,32 +1,26 @@
 #!/bin/sh
 set -e
 
-echo "Starting Django entrypoint script..."
+echo "Waiting for MindGlow Production RDS to be available..."
+sleep 5
 
-# 1. Wait for database (only if DATABASE_URL is set)
-if [ -n "$DATABASE_URL" ]; then
-  echo "Waiting for database..."
-  sleep 3
-fi
+# 1. Run migrations 
+# We add || true so it doesn't crash the container if the DB is momentarily busy
+echo "Checking and running migrations..."
+python manage.py migrate --noinput || echo "Migrations failed, continuing anyway..."
 
-# 2. Apply database migrations
-echo "Running migrations..."
-python manage.py migrate --noinput
+# 2. Collect static files
+# We ignore errors here so that the server still starts even if S3 is not ready yet
+echo "Collecting static files (Uploading to S3)..."
+python manage.py collectstatic --noinput --clear || echo "Collectstatic failed (possibly S3 keys missing), continuing..."
 
-# 3. Collect static files
-echo "Collecting static files..."
-python manage.py collectstatic --noinput --clear
-
-# 4. Create superuser only if credentials are provided
+# 3. Create superuser
 if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ]; then
   echo "Creating superuser..."
-  python manage.py createsuperuser --noinput || echo "Superuser already exists or creation failed"
-else
-  echo "Skipping superuser creation - credentials not provided"
+  python manage.py createsuperuser --noinput || echo "Superuser exists"
 fi
 
-echo "Entrypoint script completed successfully!"
+echo "Entrypoint script finished. Starting Gunicorn..."
 
-# 5. Execute the CMD from Dockerfile
-echo "Starting Gunicorn..."
+# 4. Start Gunicorn (from CMD)
 exec "$@"
