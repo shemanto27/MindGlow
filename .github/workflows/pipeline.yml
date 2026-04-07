@@ -47,6 +47,8 @@ jobs:
           script: |
             set -e
             cd /home/ubuntu/MindGlow
+            # Clean up old data to prevent "No space left on device"
+            sudo docker system prune -af
             # Pull the latest image we just pushed
             sudo docker compose -f docker-compose.prod.yml pull
             # Restart the service
