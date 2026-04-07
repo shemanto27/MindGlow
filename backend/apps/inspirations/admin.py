@@ -3,5 +3,6 @@ from .models import FavoriteQuoteModel
 
 @admin.register(FavoriteQuoteModel)
 class FavoriteQuoteAdmin(admin.ModelAdmin):
-    list_display = ['author', 'user', 'created_at']
-    search_fields = ['author', 'quote', 'user__email']
+    list_display = ('user', 'author', 'created_at')
+    search_fields = ('user__email', 'author', 'quote')
+    list_filter = ('created_at',)
