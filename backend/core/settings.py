@@ -242,6 +242,7 @@ REST_AUTH = {
     'JWT_SERIALIZER': 'apps.users.serializers.CustomJWTSerializer',
     'USE_JWT': True,
     'JWT_AUTH_HTTPONLY': False,
+    'OLD_PASSWORD_FIELD_ENABLED': True,
 }
 
 # ------------------------------------------------------------------------------
