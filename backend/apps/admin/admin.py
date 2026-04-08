@@ -3,7 +3,8 @@ from .models import FAQModel, PrivacyPolicyModel, TermsAndConditionsModel, Suppo
 
 @admin.register(FAQModel)
 class FAQAdmin(admin.ModelAdmin):
-    list_display = ('id', 'updated_at')
+    list_display = ('question', 'updated_at')
+    search_fields = ('question', 'answer')
 
 @admin.register(PrivacyPolicyModel)
 class PrivacyPolicyAdmin(admin.ModelAdmin):

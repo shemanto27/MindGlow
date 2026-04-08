@@ -100,3 +100,6 @@ Available endpoints (once running):
 ## 16. Support & Contact
 - **Developer:** Shemanto27
 - **Repository:** [Repository URL]
+
+#Connect to SSH:
+ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@35.182.174.212

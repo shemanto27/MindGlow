@@ -1,22 +1,28 @@
-from rest_framework.views import APIView
+from rest_framework import viewsets, generics, permissions, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 
 from .models import LearningModel
-from .serializers import LearningSerializer, LearningRequestSerializer
+from .serializers import LearningSerializer, LearningRequestSerializer, PastActivitySerializer
 from ai.chatbot_learning import generate_learning_content
 
-class LearningView(APIView):
-    permission_classes = [IsAuthenticated]
+class LearningViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for viewing and editing learning records.
+    """
+    queryset = LearningModel.objects.all()
+    serializer_class = LearningSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user).order_by('-created_at')
 
     @swagger_auto_schema(
         request_body=LearningRequestSerializer,
         responses={201: LearningSerializer},
         security=[{"Bearer": []}]
     )
-    def post(self, request):
+    def create(self, request, *args, **kwargs):
         user = request.user
         serializer = LearningRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -35,7 +41,7 @@ class LearningView(APIView):
         }
 
         ai_response = generate_learning_content(user_message=topic, user_metadata=profile_payload)
-        content = ai_response.get('reply')
+        content = ai_response.get('reply', 'No content generated.')
 
         learning_item = LearningModel.objects.create(
             user=user,
@@ -46,12 +52,28 @@ class LearningView(APIView):
         output_serializer = LearningSerializer(learning_item)
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
-    @swagger_auto_schema(
-        responses={200: LearningSerializer(many=True)},
-        security=[{"Bearer": []}]
-    )
-    def get(self, request):
-        user = request.user
-        learnings = LearningModel.objects.filter(user=user).order_by('-created_at')
-        serializer = LearningSerializer(learnings, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class PastLearningListView(generics.ListAPIView):
+    """
+    Returns a list of past learnings with special formatting (Date, Title, Summary).
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PastActivitySerializer
+
+    def get_queryset(self):
+        return LearningModel.objects.filter(user=self.request.user).order_by('-created_at')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        data = []
+        for item in queryset:
+            summary_lines = (item.content or "").split('\n')
+            summary = "\n".join(summary_lines[:2])
+            data.append({
+                "id": item.id,
+                "created_at": item.created_at,
+                "title": item.topic,
+                "summary": summary
+            })
+        serializer = self.serializer_class(data, many=True)
+        return Response(serializer.data)

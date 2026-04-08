@@ -149,3 +149,30 @@ class ConversationDeleteView(APIView):
 
 
 
+
+from apps.learnings.serializers import PastActivitySerializer
+from rest_framework import generics
+
+class PastReflectionListView(generics.ListAPIView):
+    """
+    Returns a list of past reflections with special formatting (Date, Title, Summary).
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = PastActivitySerializer
+
+    def get_queryset(self):
+        return ConversationModel.objects.filter(user=self.request.user).order_by('-created_at')
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        data = []
+        for item in queryset:
+            data.append({
+                "id": item.id,
+                "created_at": item.created_at,
+                "title": item.title or "Self Reflection",
+                "summary": item.summary or "A moment of reflection."
+            })
+        
+        serializer = self.serializer_class(data, many=True)
+        return Response(serializer.data)

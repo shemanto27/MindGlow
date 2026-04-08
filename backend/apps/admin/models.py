@@ -1,11 +1,17 @@
 from django.db import models
 
 class FAQModel(models.Model):
-    content = models.TextField()
+    question = models.TextField()
+    answer = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "FAQ"
+        verbose_name_plural = "FAQs"
+
     def __str__(self):
-        return f"FAQ (Updated: {self.updated_at.date()})"
+        return f"Q: {self.question[:50]}..."
 
 class PrivacyPolicyModel(models.Model):
     content = models.TextField()

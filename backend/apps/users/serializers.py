@@ -69,7 +69,7 @@ class ResendOtpSerializer(serializers.Serializer):
 class ProfileCompletionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUserModel
-        fields = ['full_name', 'age_group', 'life_situation', 'occupation', 'life_feelings', 'faith', 'inspiration_sources', 'attention_today']
+        fields = ['full_name', 'pronouns', 'age_group', 'life_situation', 'occupation', 'life_feelings', 'faith', 'inspiration_sources', 'attention_today']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

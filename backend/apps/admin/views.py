@@ -38,9 +38,10 @@ class BaseSingletonView(generics.RetrieveUpdateAPIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class FAQView(BaseSingletonView):
-    model = FAQModel
+class FAQView(generics.ListCreateAPIView):
+    queryset = FAQModel.objects.all().order_by('-created_at')
     serializer_class = FAQSerializer
+    permission_classes = [permissions.IsAuthenticated, IsSuperUserOrReadOnly]
 
 class PrivacyPolicyView(BaseSingletonView):
     model = PrivacyPolicyModel

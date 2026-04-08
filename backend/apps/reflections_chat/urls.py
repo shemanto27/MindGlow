@@ -1,9 +1,13 @@
 from django.urls import path
 
-from apps.reflections_chat.views import ChatView, ConversationDeleteView, ConversationListView, ConversationMessagesView, NewConversationView
+from apps.reflections_chat.views import (
+    ChatView, ConversationDeleteView, ConversationListView, 
+    ConversationMessagesView, NewConversationView, PastReflectionListView
+)
 
 urlpatterns = [
     # Add your routes here
+    path('past-reflection/', PastReflectionListView.as_view(), name='past-reflection'),
 
     path('chat/conversations/', ConversationListView.as_view(), name='chat-conversations-list'),
     path('chat/conversations/new/', NewConversationView.as_view(), name='chat-new-conversation'),
