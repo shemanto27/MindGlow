@@ -102,4 +102,4 @@ Available endpoints (once running):
 - **Repository:** [Repository URL]
 
 #Connect to SSH:
-ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@35.182.174.212
+ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@15.222.182.77
