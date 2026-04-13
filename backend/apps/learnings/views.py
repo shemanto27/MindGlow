@@ -15,6 +15,8 @@ class LearningViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False) or not self.request.user.is_authenticated:
+            return self.queryset.none()
         return self.queryset.filter(user=self.request.user).order_by('-created_at')
 
     @swagger_auto_schema(
@@ -61,6 +63,8 @@ class PastLearningListView(generics.ListAPIView):
     serializer_class = PastActivitySerializer
 
     def get_queryset(self):
+        if getattr(self, 'swagger_fake_view', False) or not self.request.user.is_authenticated:
+            return LearningModel.objects.none()
         return LearningModel.objects.filter(user=self.request.user).order_by('-created_at')
 
     def list(self, request, *args, **kwargs):

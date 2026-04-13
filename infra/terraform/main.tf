@@ -41,7 +41,8 @@ resource "aws_db_instance" "postgres" {
   skip_final_snapshot = true
 
   vpc_security_group_ids = [aws_security_group.ec2_sg.id] 
-  publicly_accessible    = false                          
+  publicly_accessible    = true                          
+  apply_immediately      = true
 }
 
 # CORS configuration to allow fonts and icons to load on different domains
