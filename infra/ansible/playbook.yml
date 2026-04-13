@@ -62,6 +62,8 @@
         src: "{{ env_file_src }}"
         dest: "{{ project_path }}/backend/.env"
         mode: "0600"
+      notify:
+        - restart docker-compose
 
     - name: Copy docker-compose.prod.yml
       copy:

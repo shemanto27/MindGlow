@@ -172,7 +172,7 @@ class ReflectBot:
         prompt = (
             "Based on the following conversation snippets, generate:\n"
             "1. A short, poetic title (3-5 words).\n"
-            "2. A brief topic of what was discussed (max 2 lines).\n"
+            "2. A single word representing the topic (e.g., 'Grief', 'Growth', 'Anxiety').\n"
             "3. A concise summary (2-3 sentences).\n\n"
             f"Conversation:\n{context}\n\n"
             "Return ONLY a JSON object with keys: title, topic, summary."

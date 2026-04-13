@@ -1,3 +1,11 @@
 from django.db import models
+from apps.users.models import CustomUserModel
 
-# Create your models here.
+class FavoriteQuoteModel(models.Model):
+    user = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE, related_name='fav_quotes')
+    quote = models.TextField()
+    author = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Quote saved by {self.user.email}"

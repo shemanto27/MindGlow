@@ -178,3 +178,45 @@ class PastReflectionListView(generics.ListAPIView):
         
         serializer = self.serializer_class(data, many=True)
         return Response(serializer.data)
+
+class ReflectedTopicsView(APIView):
+    """
+    Returns a list of unique topics (single words) the user has reflected on.
+    """
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        responses={200: 'List of unique topics the user has reflected on'},
+        security=[{"Bearer": []}]
+    )
+    def get(self, request):
+        topics = ConversationModel.objects.filter(
+            user=request.user, 
+            topic__isnull=False
+        ).exclude(topic='').values_list('topic', flat=True).distinct()
+        
+        cleaned_topics = set()
+        for t in topics:
+            # Basic heuristic: take the last word and strip punctuation 
+            # to handle existing multi-word topics in the database.
+            word = t.strip(' .?!,').split()[-1].capitalize()
+            cleaned_topics.add(word)
+            
+        return Response(sorted(list(cleaned_topics)), status=status.HTTP_200_OK)
+
+
+class LastConversationView(APIView):
+    """
+    Returns the ID of the most recently updated conversation for the user.
+    """
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        responses={200: 'The ID of the most recent conversation'},
+        security=[{"Bearer": []}]
+    )
+    def get(self, request):
+        last_convo = ConversationModel.objects.filter(user=request.user).order_by('-updated_at').first()
+        return Response({
+            "conversation_id": last_convo.id if last_convo else None
+        }, status=status.HTTP_200_OK)

@@ -1,0 +1,134 @@
+Watching for file changes with StatReloader
+Internal Server Error: /api/docs/
+Traceback (most recent call last):
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/django/views/generic/base.py", line 106, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/rest_framework/views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/rest_framework/views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/rest_framework/views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/views.py", line 129, in get
+    schema = generator.get_schema(request, self.public)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/generators.py", line 337, in get_schema
+    paths, prefix = self.get_paths(endpoints, components, request, public)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/generators.py", line 561, in get_paths
+    operation = self.get_operation(
+                ^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/generators.py", line 609, in get_operation
+    operation = view_inspector.get_operation(operation_keys)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/view.py", line 57, in get_operation
+    responses = self.get_responses()
+                ^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/view.py", line 225, in get_responses
+    responses=self.get_response_schemas(response_serializers)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/view.py", line 323, in get_response_schemas
+    schema=self.serializer_to_schema(serializer),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/base.py", line 551, in serializer_to_schema
+    return self.probe_inspectors(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/base.py", line 137, in probe_inspectors
+    result = method(obj, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/field.py", line 58, in get_schema
+    return self.probe_field_inspectors(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/base.py", line 277, in probe_field_inspectors
+    return self.probe_inspectors(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/base.py", line 137, in probe_inspectors
+    result = method(obj, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/field.py", line 111, in field_to_swagger_object
+    child_schema = self.probe_field_inspectors(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/base.py", line 277, in probe_field_inspectors
+    return self.probe_inspectors(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/base.py", line 137, in probe_inspectors
+    result = method(obj, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shemanto/projects/MindGlow/backend/.venv/lib/python3.12/site-packages/drf_yasg/inspectors/field.py", line 167, in field_to_swagger_object
+    raise SwaggerGenerationError(
+drf_yasg.errors.SwaggerGenerationError: Schema for <class 'apps.inspirations.serializers.FavoriteQuoteSerializer'> would override distinct serializer <class 'apps.qoute.serializers.FavoriteQuoteSerializer'> because they implicitly share the same ref_name; explicitly set the ref_name attribute on both serializers' Meta classes
+[13/Apr/2026 21:18:06] "GET /api/docs/?format=openapi HTTP/1.1" 500 206525
+/home/shemanto/projects/MindGlow/backend/apps/inspirations/serializers.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): apps_qoute.
+Run 'python manage.py migrate' to apply them.
+April 13, 2026 - 21:18:02
+Django version 6.0.3, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8003/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
+Watching for file changes with StatReloader
+/home/shemanto/projects/MindGlow/backend/apps/qoute/serializers.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): apps_qoute.
+Run 'python manage.py migrate' to apply them.
+April 13, 2026 - 21:18:29
+Django version 6.0.3, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8003/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
+Watching for file changes with StatReloader
+/home/shemanto/projects/MindGlow/backend/apps/reflections_chat/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): apps_qoute.
+Run 'python manage.py migrate' to apply them.
+April 13, 2026 - 21:18:37
+Django version 6.0.3, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8003/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
+Watching for file changes with StatReloader
+/home/shemanto/projects/MindGlow/backend/apps/reflections_chat/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): apps_qoute.
+Run 'python manage.py migrate' to apply them.
+April 13, 2026 - 21:40:35
+Django version 6.0.3, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8003/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/
+Watching for file changes with StatReloader

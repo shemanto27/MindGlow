@@ -6,3 +6,4 @@ class FavoriteQuoteSerializer(serializers.ModelSerializer):
         model = FavoriteQuoteModel
         fields = ['id', 'quote', 'author', 'created_at']
         read_only_fields = ['id', 'created_at']
+        ref_name = 'InspirationFavoriteQuote'
