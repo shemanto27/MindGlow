@@ -83,7 +83,8 @@ resource "aws_s3_bucket_policy" "media" {
         Action    = "s3:GetObject"
         Resource  = [
           "${aws_s3_bucket.media.arn}/static/*",
-          "${aws_s3_bucket.media.arn}/media/*"
+          "${aws_s3_bucket.media.arn}/media/*",
+          "${aws_s3_bucket.media.arn}/users/*"
         ]
       }
     ]
