@@ -77,6 +77,7 @@ CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:
 # Application definition
 # -------------------------------
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,7 +138,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -274,4 +275,75 @@ SWAGGER_SETTINGS = {
         }
     },
     "USE_SESSION_AUTH": False,
+}
+# ------------------------------------------------------------------------------
+# UNFOLD ADMIN
+# ------------------------------------------------------------------------------
+UNFOLD = {
+    "SITE_HEADER": "MindGlow Admin",
+    "SITE_TITLE": "MindGlow",
+    "INDEX_TITLE": "Welcome to MindGlow Dashboard",
+    "INDEX_TEMPLATE": "admin/index.html",
+    "DASHBOARD_CALLBACK": "apps.users.admin.user_stats_callback",
+    "STYLES": [
+        f"https://{AWS_S3_CUSTOM_DOMAIN}/static/css/custom_admin.css",
+    ],
+
+    "SIDEBAR": {
+        "show_search": False,
+        "show_all_applications": False,
+        "navigation": [
+            {
+                "title": "User Management",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "Users Account",
+                        "icon": "person",
+                        "link": "/admin/apps_users/customusermodel/",
+                    },
+                ],
+            },
+            {
+                "title": "App Settings",
+                "separator": True,
+                "items": [
+                    {
+                        "title": "AI Prompts",
+                        "icon": "smart_toy",
+                        "link": "/admin/apps_app_settings/aiprompt/",
+                    },
+                ],
+            },
+            {
+                "title": "Legal & Support",
+                "items": [
+                    {
+                        "title": "FAQs",
+                        "icon": "quiz",
+                        "link": "/admin/apps_admin/faqmodel/",
+                    },
+                    {
+                        "title": "Privacy Policy",
+                        "icon": "security",
+                        "link": "/admin/apps_admin/privacypolicymodel/",
+                    },
+                    {
+                        "title": "Terms & Conditions",
+                        "icon": "description",
+                        "link": "/admin/apps_admin/termsandconditionsmodel/",
+                    },
+                    {
+                        "title": "Support Messages",
+                        "icon": "contact_support",
+                        "link": "/admin/apps_admin/supportmessagemodel/",
+                    },
+                ],
+            },
+        ],
+    },
+    "COMMAND": {
+        "show_search": False,
+        "show_history": False,
+    },
 }

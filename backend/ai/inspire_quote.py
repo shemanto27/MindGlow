@@ -4,6 +4,7 @@ MindGlow Quote Generator — Personalized wisdom and inspiration.
 
 from openai import OpenAI
 from .config import get_settings, get_user_context
+from .prompt_loader import get_quote_system_prompt, get_quote_instruction_prompt
 
 class QuoteGenerator:
     """Generates personalized inspiring quotes based on user profile."""
@@ -19,15 +20,11 @@ class QuoteGenerator:
         Returns dict with: quote, author.
         """
         messages = [
-            {"role": "system", "content": "You are a wisdom companion. Your task is to provide a single, deeply resonant and inspiring quote for the user."},
+            {"role": "system", "content": get_quote_system_prompt()},
             {"role": "system", "content": get_user_context(user_profile)},
             {
                 "role": "system",
-                "content": (
-                    "Provide a quote that matches the user's current life feeling, faith, and inspiration sources. "
-                    "If they mention a specific philosophy or religion, you may draw from those texts (Gita, Quran, Rumi, etc.). "
-                    "Return ONLY a JSON object with keys: 'quote' and 'author'."
-                )
+                "content": get_quote_instruction_prompt()
             },
             {"role": "user", "content": "Give me a quote that speaks to my heart today."}
         ]

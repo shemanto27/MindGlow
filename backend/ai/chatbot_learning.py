@@ -4,7 +4,8 @@ Detailed, report-style responses for in-depth inner learning.
 """
 
 from openai import OpenAI
-from .config import get_settings, INNER_LEARNING_SYSTEM_PROMPT, CRISIS_RESOURCES, get_user_context
+from .config import get_settings, CRISIS_RESOURCES, get_user_context
+from .prompt_loader import get_learning_prompt
 from .filters import detect_language, detect_crisis
 
 
@@ -33,7 +34,7 @@ class InnerLearningBot:
         
         # Build conversation context
         messages = [
-            {"role": "system", "content": INNER_LEARNING_SYSTEM_PROMPT},
+            {"role": "system", "content": get_learning_prompt()},
             {"role": "system", "content": get_user_context(user_profile)},
         ]
         
@@ -78,7 +79,7 @@ class InnerLearningBot:
         crisis_resources = CRISIS_RESOURCES.get(language, CRISIS_RESOURCES["default"])
         
         messages = [
-            {"role": "system", "content": INNER_LEARNING_SYSTEM_PROMPT},
+            {"role": "system", "content": get_learning_prompt()},
             {"role": "system", "content": get_user_context()},
             {
                 "role": "system",

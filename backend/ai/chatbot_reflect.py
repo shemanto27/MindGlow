@@ -4,7 +4,8 @@ Pure non-directive questioning. No advice. Ever.
 """
 
 from openai import OpenAI
-from .config import get_settings, REFLECT_SYSTEM_PROMPT, CRISIS_RESOURCES, get_user_context
+from .config import get_settings, CRISIS_RESOURCES, get_user_context
+from .prompt_loader import get_reflect_prompt
 from .filters import detect_language, check_for_directives, detect_crisis
 
 
@@ -37,7 +38,7 @@ class ReflectBot:
         
         # Build conversation context
         messages = [
-            {"role": "system", "content": REFLECT_SYSTEM_PROMPT},
+            {"role": "system", "content": get_reflect_prompt()},
             {"role": "system", "content": get_user_context(user_profile)},
         ]
         
@@ -129,7 +130,7 @@ class ReflectBot:
         crisis_resources = CRISIS_RESOURCES.get(language, CRISIS_RESOURCES["default"])
         
         messages = [
-            {"role": "system", "content": REFLECT_SYSTEM_PROMPT},
+            {"role": "system", "content": get_reflect_prompt()},
             {"role": "system", "content": get_user_context()},
             {
                 "role": "system",
