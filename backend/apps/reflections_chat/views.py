@@ -78,6 +78,7 @@ class ChatView(APIView):
                 "faith": getattr(user, 'faith', None),
                 "inspiration_sources": getattr(user, 'inspiration_sources', None),
                 "attention_today": getattr(user, 'attention_today', None),
+                "language": getattr(user, 'language', 'en'),
             }
 
             ai_response = generate_ai_reply(history=history, user_message=user_message, user_metadata=profile_payload)

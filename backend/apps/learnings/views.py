@@ -40,6 +40,7 @@ class LearningViewSet(viewsets.ModelViewSet):
             "faith": getattr(user, 'faith', None),
             "inspiration_sources": getattr(user, 'inspiration_sources', None),
             "attention_today": getattr(user, 'attention_today', None),
+            "language": getattr(user, 'language', 'en'),
         }
 
         ai_response = generate_learning_content(user_message=topic, user_metadata=profile_payload)
