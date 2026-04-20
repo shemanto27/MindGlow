@@ -57,6 +57,13 @@ class CustomUserModel(AbstractBaseUser, PermissionsMixin):
     inspiration_sources = models.TextField(blank=True, null=True)
     attention_today = models.TextField(blank=True, null=True)
 
+    LANGUAGE_CHOICES = [
+        ('en', 'English'),
+        ('fr', 'French'),
+        ('ar', 'Arabic'),
+    ]
+    language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default='en')
+
 
     # Verification Trackers
     is_email_verified = models.BooleanField(default=False)

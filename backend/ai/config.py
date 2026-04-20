@@ -52,6 +52,11 @@ def get_user_context(profile: dict = None) -> str:
     faith = p.get('faith') or "Unknown"
     voices = p.get('inspiration_sources') or p.get('inspiring_voices') or "Universal wisdom"
     attention = p.get('attention_today') or "General reflection"
+    language = p.get('language') or "en"
+
+    # Map language codes to names for the prompt
+    lang_map = {'en': 'English', 'fr': 'French', 'ar': 'Arabic'}
+    language_name = lang_map.get(language, 'English')
 
     lines = [
         "## WHO YOU'RE TALKING TO",
@@ -63,8 +68,10 @@ def get_user_context(profile: dict = None) -> str:
         f"Faith/spirituality: {faith}",
         f"Voices that inspire them: {voices}",
         f"What they want to give attention to today: {attention}",
+        f"Preferred Language: {language_name}",
         "",
         "## HOW TO USE THIS PROFILE",
+        f"- CRITICAL: ALWAYS respond in {language_name}. Even if the user writes in another language, you must stay in {language_name} unless they specifically ask to switch.",
         "- Personalize every response based on the profile above.",
         "- Address the user by their name when it feels natural.",
         "- Respect and draw from their faith/spiritual background when appropriate.",
@@ -185,7 +192,7 @@ If user pushes 2+ times:
 - Then offer options related to what having direction would give them.
 
 ## LANGUAGE
-- Always respond in the same language the user writes in.
+- Respect the user's Preferred Language specified in the context above.
 - Keep reflective sentences concise — 2-3 sentences before the question.
 - Options should be brief but emotionally precise.
 
@@ -319,7 +326,7 @@ When suggesting videos and resources:
 - Suggest next topics to explore based on what they've already learned.
 
 ## LANGUAGE
-- Always respond in the same language the user writes in.
+- Respect the user's Preferred Language specified in the context above.
 - Adjust length based on topic complexity — favor comprehensive over brief.
 - Use professional, educational language while remaining accessible.
 - Translate resource titles when responding in non-English languages, but keep URLs in original form.
