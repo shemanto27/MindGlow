@@ -15,6 +15,10 @@ class AIPromptAdmin(ModelAdmin):
         """Prevent admin from deleting critical system prompts."""
         return False
 
+    def has_change_permission(self, request, obj=None):
+        """Allow admin to edit prompt content and description."""
+        return True
+
     def get_readonly_fields(self, request, obj=None):
         """Make name read-only once created, as the AI logic depends on specific names."""
         if obj: # editing an existing object

@@ -203,7 +203,18 @@ class ReflectedTopicsView(APIView):
             word = t.strip(' .?!,').split()[-1].capitalize()
             cleaned_topics.add(word)
             
-        return Response(sorted(list(cleaned_topics)), status=status.HTTP_200_OK)
+        topic_list = sorted(list(cleaned_topics))
+        
+        # Translate to user language if necessary
+        user_lang = getattr(request.user, 'language', 'en')
+        if user_lang and user_lang != 'en':
+            from ai.chatbot_reflect import translate_list
+            # Map code to name for AI clarity
+            lang_map = {'en': 'English', 'fr': 'French', 'ar': 'Arabic'}
+            target_name = lang_map.get(user_lang, user_lang)
+            topic_list = translate_list(topic_list, target_name)
+
+        return Response(topic_list, status=status.HTTP_200_OK)
 
 
 class LastConversationView(APIView):

@@ -210,6 +210,37 @@ def generate_ai_reply(history: list, user_message: str, user_metadata: dict) -> 
     return chat_response
 
 
+def translate_list(items: list, target_language: str) -> list:
+    """Translates a list of strings into the target language using AI."""
+    if not items or not target_language or target_language.lower() in ['en', 'english']:
+        return items
+    
+    from .config import get_settings
+    settings = get_settings()
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    
+    # Map language codes to names if needed, but the prompt can handle codes too
+    prompt = (
+        f"Translate the following list of terms into {target_language}. "
+        "Maintain the same order and return ONLY a JSON object with a key 'translated_items' containing the list of strings.\n\n"
+        f"List: {items}"
+    )
+    
+    try:
+        response = client.chat.completions.create(
+            model=settings.OPENAI_MODEL,
+            messages=[{"role": "system", "content": "You are a professional translator."},
+                      {"role": "user", "content": prompt}],
+            temperature=0.3,
+            response_format={"type": "json_object"}
+        )
+        import json
+        result = json.loads(response.choices[0].message.content)
+        return result.get('translated_items', items)
+    except Exception:
+        return items
+
+
 if __name__ == "__main__":
     bot = ReflectBot()
     print("\nYour Inner Light is here. Type your message, 'reset' to clear history, or 'quit' to exit.\n")
