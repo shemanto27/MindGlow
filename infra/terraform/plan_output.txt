@@ -1,0 +1,124 @@
+[0m[1maws_key_pair.terraform_key: Refreshing state... [id=terraform-key-MindGlow][0m
+[0m[1maws_s3_bucket.media: Refreshing state... [id=mindglow-media-prod][0m
+[0m[1maws_security_group.ec2_sg: Refreshing state... [id=sg-0e3189940cf169f75][0m
+[0m[1maws_db_instance.postgres: Refreshing state... [id=db-STHJ2LLGCKCMSXQGOT5HNPLV4Y][0m
+[0m[1maws_instance.ec2_server_1: Refreshing state... [id=i-06cdc0334dadd14de][0m
+[0m[1maws_eip.static_ip: Refreshing state... [id=eipalloc-028b78680643cc115][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+  [33m~[0m update in-place[0m
+[31m-[0m/[32m+[0m destroy and then create replacement[0m
+
+Terraform will perform the following actions:
+
+[1m  # aws_db_instance.postgres[0m will be updated in-place
+[0m  [33m~[0m[0m resource "aws_db_instance" "postgres" {
+      [32m+[0m[0m apply_immediately                     = true
+        id                                    = "db-STHJ2LLGCKCMSXQGOT5HNPLV4Y"
+      [32m+[0m[0m password                              = (sensitive value)
+        tags                                  = {}
+        [90m# (72 unchanged attributes hidden)[0m[0m
+    }
+
+[1m  # aws_instance.ec2_server_1[0m will be updated in-place
+[0m  [33m~[0m[0m resource "aws_instance" "ec2_server_1" {
+        id                                   = "i-06cdc0334dadd14de"
+      [33m~[0m[0m instance_type                        = "t3.micro" [33m->[0m[0m "t3.medium"
+      [33m~[0m[0m public_dns                           = "ec2-15-222-182-77.ca-central-1.compute.amazonaws.com" -> (known after apply)
+      [33m~[0m[0m public_ip                            = "15.222.182.77" -> (known after apply)
+        tags                                 = {
+            "Name" = "MindGlow"
+        }
+      [32m+[0m[0m user_data_replace_on_change          = false
+        [90m# (36 unchanged attributes hidden)[0m[0m
+
+        [90m# (9 unchanged blocks hidden)[0m[0m
+    }
+
+[1m  # aws_key_pair.terraform_key[0m must be [1m[31mreplaced[0m
+[0m[31m-[0m/[32m+[0m[0m resource "aws_key_pair" "terraform_key" {
+      [33m~[0m[0m arn             = "arn:aws:ec2:ca-central-1:621533608244:key-pair/terraform-key-MindGlow" -> (known after apply)
+      [33m~[0m[0m fingerprint     = "1a:98:0e:ed:83:2f:f5:48:f3:e6:d7:f9:e6:de:44:88" -> (known after apply)
+      [33m~[0m[0m id              = "terraform-key-MindGlow" -> (known after apply)
+      [32m+[0m[0m key_name_prefix = (known after apply)
+      [33m~[0m[0m key_pair_id     = "key-0fa550ecdc9df7547" -> (known after apply)
+      [33m~[0m[0m key_type        = "rsa" -> (known after apply)
+      [32m+[0m[0m public_key      = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJvkBQb4MfsGmV/hrW8AJ94bN60D49f3XY6okwth9o2 shemantosharkarofficial@gmail.com" [31m# forces replacement[0m[0m
+      [31m-[0m[0m tags            = {} [90m-> null[0m[0m
+      [33m~[0m[0m tags_all        = {} -> (known after apply)
+        [90m# (2 unchanged attributes hidden)[0m[0m
+    }
+
+[1m  # aws_s3_bucket_cors_configuration.media[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_cors_configuration" "media" {
+      [32m+[0m[0m bucket = "mindglow-media-prod"
+      [32m+[0m[0m id     = (known after apply)
+      [32m+[0m[0m region = "ca-central-1"
+
+      [32m+[0m[0m cors_rule {
+          [32m+[0m[0m allowed_headers = [
+              [32m+[0m[0m "*",
+            ]
+          [32m+[0m[0m allowed_methods = [
+              [32m+[0m[0m "GET",
+              [32m+[0m[0m "HEAD",
+            ]
+          [32m+[0m[0m allowed_origins = [
+              [32m+[0m[0m "http://localhost:8000",
+              [32m+[0m[0m "https://api.mindglow.tech",
+            ]
+          [32m+[0m[0m expose_headers  = [
+              [32m+[0m[0m "ETag",
+            ]
+            id              = [90mnull[0m[0m
+          [32m+[0m[0m max_age_seconds = 3000
+        }
+    }
+
+[1m  # aws_s3_bucket_policy.media[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_policy" "media" {
+      [32m+[0m[0m bucket = "mindglow-media-prod"
+      [32m+[0m[0m id     = (known after apply)
+      [32m+[0m[0m policy = jsonencode(
+            {
+              [32m+[0m[0m Statement = [
+                  [32m+[0m[0m {
+                      [32m+[0m[0m Action    = "s3:GetObject"
+                      [32m+[0m[0m Effect    = "Allow"
+                      [32m+[0m[0m Principal = "*"
+                      [32m+[0m[0m Resource  = [
+                          [32m+[0m[0m "arn:aws:s3:::mindglow-media-prod/static/*",
+                          [32m+[0m[0m "arn:aws:s3:::mindglow-media-prod/media/*",
+                          [32m+[0m[0m "arn:aws:s3:::mindglow-media-prod/users/*",
+                        ]
+                      [32m+[0m[0m Sid       = "PublicReadGetObject"
+                    },
+                ]
+              [32m+[0m[0m Version   = "2012-10-17"
+            }
+        )
+      [32m+[0m[0m region = "ca-central-1"
+    }
+
+[1m  # aws_s3_bucket_public_access_block.media[0m will be created
+[0m  [32m+[0m[0m resource "aws_s3_bucket_public_access_block" "media" {
+      [32m+[0m[0m block_public_acls       = true
+      [32m+[0m[0m block_public_policy     = false
+      [32m+[0m[0m bucket                  = "mindglow-media-prod"
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m ignore_public_acls      = true
+      [32m+[0m[0m region                  = "ca-central-1"
+      [32m+[0m[0m restrict_public_buckets = false
+    }
+
+[1mPlan:[0m [0m4 to add, 2 to change, 1 to destroy.
+
+Changes to Outputs:
+  [32m+[0m[0m rds_password   = (sensitive value)
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.
